@@ -32,6 +32,8 @@ app.get("/bpm", (req, res) => {
     res.send(hrStack[hrStack.length-1]);
 });
 
+app.use('/images', Express.static('src/images'));
+
 app.get("/:schema?", (req, res) => {
     console.log(new Date()+" GET /");
 
@@ -43,7 +45,7 @@ app.get("/:schema?", (req, res) => {
 app.post("/", (req, res) => {
     console.log(chalk.yellow("New HR received: "+req.body.hr));
     hrStack.push(req.body.hr);
-    
+
     //broadcast to clients
     wss.broadcast(JSON.stringify({time: new Date(), hr: req.body.hr}));
 

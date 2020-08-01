@@ -4,7 +4,11 @@ const path=require("path");
 module.exports=(colorScheme, serverAddr, renderBPM=true, bg=null, fg=null) => {
     //set the colors
     var bgc, fgc;
-    if(colorScheme==="blue"){
+    if(colorScheme==="new"){
+        var newHtml=fs.readFileSync(path.join(__dirname, "badge2.html"), "utf8").replace(/{{server}}/g, serverAddr);
+        return newHtml;
+    }
+    else if(colorScheme==="blue"){
         bgc="black";
         fgc="blue";
     }
