@@ -32,7 +32,7 @@ app.get("/bpm", (req, res) => {
     res.send(hrStack[hrStack.length-1]);
 });
 
-app.use('/images', Express.static('src/images'));
+app.use('/static', Express.static('src/static'));
 
 app.get("/:schema?", (req, res) => {
     console.log(new Date()+" GET /");

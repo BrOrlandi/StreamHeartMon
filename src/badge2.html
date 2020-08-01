@@ -40,7 +40,6 @@
 
         #heart {
             width: 2em;
-            animation: heartbeat ease infinite;
         }
 
         #bpm {
@@ -49,38 +48,43 @@
             text-align: right;
         }
 
-        @keyframes heartbeat {
-            0% {
-                transform: scale(1)
-            }
-            30% {
-                transform: scale(1.5)
-            }
-            60% {
-                transform: scale(1)
-            }
-            100% {
-                transform: scale(1)
-            }
-        }
-
         </style>
+        <script src="/static/anime.min.js"></script>
     </head>
     <body>
         <div class="bpm-display">
         <div class="box">
-            <img id="heart" src="/images/heart.png" alt="">
+            <img id="heart" src="/static/heart.png" alt="">
             <div id="bpm-text"><span id="bpm">666</span><span class="bpm-indicator"> BPM</span></div>
         </div>
         </div>
         <script>
             var bpmSpan = document.getElementById("bpm");
             var heartImage = document.getElementById("heart");
+            let nextBPM = 80;
+
+            anime({
+                targets: '#heart',
+                keyframes: [
+                    { scale: 1 },
+                    { scale: 1.5 },
+                    { scale: 1 },
+                ],
+                duration: 500,
+                easing: 'easeInOutSine',
+                loop: true,
+                loopComplete: function(anim) {
+                    if(nextBPM){
+                        const nextDuration = (nextBPM == 0 ? 0 : 60/nextBPM*1000);
+                        anim.duration = nextDuration;
+                        nextBPM = null;
+                    }
+                }
+            })
 
             function printDisplay(newPulse) {
                 bpmSpan.innerHTML = newPulse;
-                const nextDuration = (newPulse == 0 ? 0 : 60/newPulse);
-                heartImage.style.animationDuration = nextDuration +'s';
+                nextBPM = newPulse;
             }
 
             //build websocket
@@ -90,8 +94,8 @@
                 console.log(data);
                 printDisplay(data.hr);
             }
+            printDisplay(nextBPM);
 
-            printDisplay(0);
         </script>
     </body>
 </html>
