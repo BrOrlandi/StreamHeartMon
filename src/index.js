@@ -7,6 +7,8 @@ const chalk=require("chalk");
 
 const badgeGenerator=require("./badgeGenerator");
 
+const PORT = process.argv[2] || 3000;
+
 const app=new Express();
 const server=http.createServer(app);
 const wss=new WebSocket.Server({server: server, path: "/ws"});
@@ -18,7 +20,7 @@ wss.broadcast=(data) => {
     });
 };
 
-const srvAddr=InternalIp.v4.sync()+":3000";
+const srvAddr=InternalIp.v4.sync()+":"+PORT;
 
 var hrStack=[];
 
@@ -53,6 +55,6 @@ app.post("/", (req, res) => {
 });
 
 //start listening
-server.listen(3000, () => {
+server.listen(PORT, () => {
     console.log(chalk.green("Listening on "+srvAddr));
 });

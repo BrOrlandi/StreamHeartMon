@@ -8,6 +8,10 @@ module.exports=(colorScheme, serverAddr, renderBPM=true, bg=null, fg=null) => {
         var newHtml=fs.readFileSync(path.join(__dirname, "badge2.html"), "utf8").replace(/{{server}}/g, serverAddr);
         return newHtml;
     }
+    if(colorScheme==="glitch"){
+        var newHtml=fs.readFileSync(path.join(__dirname, "glitchTheme.html"), "utf8").replace(/{{server}}/g, serverAddr);
+        return newHtml;
+    }
     else if(colorScheme==="blue"){
         bgc="black";
         fgc="blue";
