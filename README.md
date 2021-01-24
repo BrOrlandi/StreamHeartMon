@@ -61,7 +61,18 @@ _We are assuming that the server's address is 192.168.1.100:3000._
     - Example:
         - 192.168.1.100:3000?bpm=false
 
+## Other badges
+Created by [BrOrlandi](https://github.com/brorlandi)
 
+_We are assuming that the server's address is 192.168.1.100:3000._
+- _192.168.1.100:3000/new_
+    - You have to set additional query parameters:
+        - _name_: a name to show in the badge
+        - _color_: the background color. Can be: css color alias, hex code, rgb code
+        - _textColor_: the text color. Can be: css color alias, hex code, rgb code
+    - Examples:
+        - 192.168.1.100:3000/new?name=My Name&color=blue
+        - 192.168.1.100:3000/new?color=rgb(100,100,100)&textColor=white
 
 ## How it works
 - _Tools and Mi Band_ exposes the heart rate sensor API of the Mi Band
