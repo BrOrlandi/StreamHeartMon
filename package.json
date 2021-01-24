@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "Monitor and display your heart rate in real time under your streams",
   "main": "src/index.js",
+  "bin": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js",
-    "build": "pkg src/index.js --target node10-linux,node10-macos,node10-win --out-path build"
+    "build": "pkg . --target node10-linux,node10-macos,node10-win --out-path build"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,7 @@
   },
   "homepage": "https://github.com/gergof/StreamHeartMon#readme",
   "devDependencies": {
-    "pkg": "^4.3.5"
+    "pkg": "^4.4.9"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -37,6 +38,9 @@
   },
   "pkg": {
     "scripts": "./src/**/*.js",
-    "assets": "./src/**/*.html"
+    "assets": [
+      "./src/**/*.html",
+      "./src/static/**/*"
+    ]
   }
 }
