@@ -1,8 +1,9 @@
 <html>
-    <head>
-        <title>Batimentos</title>
-        <meta charset="utf-8">
-        <style>
+
+<head>
+    <title>Batimentos</title>
+    <meta charset="utf-8">
+    <style>
         body {
             display: flex;
             flex-direction: row;
@@ -15,7 +16,7 @@
             font-family: 'Open Sans', Helvetica, Arial, sans-serif;
         }
 
-        .bpm-display > .box {
+        .bpm-display>.box {
             background-color: #eaeaea;
             padding: 10px 20px;
             margin-left: 20px;
@@ -59,13 +60,13 @@
             width: 40px;
             text-align: right;
         }
+    </style>
+    <script src="/static/anime.min.js"></script>
+    <script src="/static/qs.js"></script>
+</head>
 
-        </style>
-        <script src="/static/anime.min.js"></script>
-        <script src="/static/qs.js"></script>
-    </head>
-    <body>
-        <div class="bpm-display">
+<body>
+    <div class="bpm-display">
         <div id="box" class="box">
             <span id="name"></span>
             <div class="bpm-box">
@@ -73,62 +74,67 @@
                 <div id="bpm-text"><span id="bpm">666</span><span class="bpm-indicator"> BPM</span></div>
             </div>
         </div>
-        </div>
-        <script>
+    </div>
+    <script>
 
-            // color 1 #d0e3fd
-            // color 2 #fdd0d0
+        // color 1 #d0e3fd
+        // color 2 #fdd0d0
 
-            var bpmSpan = document.getElementById("bpm");
-            var boxDiv = document.getElementById("box");
-            var heartImage = document.getElementById("heart");
-            var nameSpan = document.getElementById("name");
-            let nextBPM = 80;
+        var bpmSpan = document.getElementById("bpm");
+        var boxDiv = document.getElementById("box");
+        var heartImage = document.getElementById("heart");
+        var nameSpan = document.getElementById("name");
+        let nextBPM = 80;
 
-            var search = location.search.replace('?','');
-            var arguments = Qs.parse(search);
+        var search = location.search.replace('?', '');
+        var arguments = Qs.parse(search);
 
-            if(arguments.name) {
-                nameSpan.innerText = arguments.name;
-            }
+        if (arguments.name) {
+            nameSpan.innerText = arguments.name;
+        }
 
-            if(arguments.color) {
-                boxDiv.style.backgroundColor = arguments.color;
-            }
+        if (arguments.color) {
+            boxDiv.style.backgroundColor = arguments.color;
+        }
 
-            anime({
-                targets: '#heart',
-                keyframes: [
-                    { scale: 1 },
-                    { scale: 1.5 },
-                    { scale: 1 },
-                ],
-                duration: 500,
-                easing: 'easeInOutSine',
-                loop: true,
-                loopComplete: function(anim) {
-                    if(nextBPM){
-                        const nextDuration = (nextBPM == 0 ? 0 : 60/nextBPM*1000);
-                        anim.duration = nextDuration;
-                        nextBPM = null;
-                    }
+        if (arguments.textColor) {
+            boxDiv.style.color = arguments.textColor;
+        }
+
+        anime({
+            targets: '#heart',
+            keyframes: [
+                { scale: 1 },
+                { scale: 1.5 },
+                { scale: 1 },
+            ],
+            duration: 500,
+            easing: 'easeInOutSine',
+            loop: true,
+            loopComplete: function (anim) {
+                if (nextBPM) {
+                    const nextDuration = (nextBPM == 0 ? 0 : 60 / nextBPM * 1000);
+                    anim.duration = nextDuration;
+                    nextBPM = null;
                 }
-            })
-
-            function printDisplay(newPulse) {
-                bpmSpan.innerHTML = newPulse;
-                nextBPM = newPulse;
             }
+        })
 
-            //build websocket
-            var ws=new WebSocket("ws://{{server}}/ws");
-            ws.onmessage=(e) => {
-                var data=JSON.parse(e.data);
-                console.log(data);
-                printDisplay(data.hr);
-            }
-            printDisplay(nextBPM);
+        function printDisplay(newPulse) {
+            bpmSpan.innerHTML = newPulse;
+            nextBPM = newPulse;
+        }
 
-        </script>
-    </body>
+        //build websocket
+        var ws = new WebSocket("ws://{{server}}/ws");
+        ws.onmessage = (e) => {
+            var data = JSON.parse(e.data);
+            console.log(data);
+            printDisplay(data.hr);
+        }
+        printDisplay(nextBPM);
+
+    </script>
+</body>
+
 </html>
